@@ -13,3 +13,53 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Gradle files
+.gradle/
+build/
+.gradletasknamecache
+
+# Log/OS Files
+*.log
+*.swp
+*.swo
+*~
+
+# Android Studio generated files and folders
+.idea/
+.ideaDataSources/
+*.apk
+*.ap_
+*.dex
+*.class
+
+# Java files
+*.jar
+*.war
+*.ear
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Play services json key
+google-services.json
+
+# Android Profiler and other Android Studio stuff
+captures/
+.externalNativeBuild/
+lint.xml
+proguard/
+*.pro
+
+# Output files
+out/
+*.o
+
+# Misc
+*.bak
+.vscode/
+.env
+.env.local
+
+# Build outputs
+app/build/
