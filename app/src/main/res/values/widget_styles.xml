@@ -36,7 +36,7 @@
     </style>
     
     <!-- EditText Styles -->
-    <style name="Widget.Phone.EditText" parent="Widget.Material3.TextInputEditText_OutlinedBox">
+    <style name="Widget.Phone.EditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
         <item name="android:textAppearance">@style/TextAppearance.Phone.BodyMedium</item>
         <item name="fontFamily">@font/sf_pro_display</item>
         <item name="android:minHeight">@dimen/button_height_48</item>
