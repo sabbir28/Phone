@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Example: How to use the new Apple-style theme -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_16">
+
+    <!-- Header with dark/light mode support -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apple Style UI"
+        android:textAppearance="@style/TextAppearance.Phone.HeadlineLarge"
+        android:textColor="?attr/colorOnBackground" />
+
+    <TextView
+        android:id="@+id/header_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:text="Dark & Light Mode Perfect"
+        android:textAppearance="@style/TextAppearance.Phone.BodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <!-- Surface Container -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="@dimen/corner_radius_12"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card Title"
+                android:textAppearance="@style/TextAppearance.Phone.TitleMedium"
+                android:textColor="?attr/colorOnSurface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8"
+                android:text="This is descriptive text that adapts to light and dark modes automatically."
+                android:textAppearance="@style/TextAppearance.Phone.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16"
+                android:orientation="horizontal"
+                android:spacing="@dimen/spacing_8">
+
+                <Button
+                    style="@style/Widget.Phone.Button.Secondary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textColor="?attr/colorPrimary" />
+
+                <Button
+                    style="@style/Widget.Phone.Button.Primary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Confirm"
+                    android:textColor="?attr/colorOnPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Input Field with adaptive colors -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:hint="Enter text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.Phone.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Chips with adaptive styling -->
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.Phone.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip 1"
+            app:chipBackgroundColor="?attr/colorSurfaceVariant"
+            app:chipStrokeColor="?attr/colorOutline" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.Phone.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip 2"
+            app:chipBackgroundColor="?attr/colorPrimaryContainer"
+            app:chipStrokeColor="?attr/colorPrimary"
+            app:chipTextColor="?attr/colorOnPrimaryContainer" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Secondary content section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_24"
+        android:text="Typography Examples"
+        android:textAppearance="@style/TextAppearance.Phone.TitleLarge"
+        android:textColor="?attr/colorOnBackground" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="Body Large Text - Use for important content"
+        android:textAppearance="@style/TextAppearance.Phone.BodyLarge"
+        android:textColor="?attr/colorOnBackground" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="Body Small Text - Use for secondary information"
+        android:textAppearance="@style/TextAppearance.Phone.BodySmall"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+</LinearLayout>

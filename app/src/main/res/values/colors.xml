@@ -1,20 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Apple-like colors -->
-    <color name="ios_light_bg">#FFFFFF</color>
-    <color name="ios_dark_bg">#000000</color>
-    <color name="ios_light_secondary_bg">#F2F2F7</color>
-    <color name="ios_dark_secondary_bg">#1C1C1E</color>
+    <!-- Light Mode Colors -->
+    <color name="light_primary">#007AFF</color>
+    <color name="light_primary_container">#E8F2FF</color>
+    <color name="light_on_primary">#FFFFFF</color>
+    <color name="light_on_primary_container">#003F8F</color>
+    
+    <color name="light_secondary">#34C759</color>
+    <color name="light_secondary_container">#E8F9F0</color>
+    <color name="light_on_secondary">#FFFFFF</color>
+    <color name="light_on_secondary_container">#1B5C2E</color>
+    
+    <color name="light_tertiary">#FF3B30</color>
+    <color name="light_tertiary_container">#FFE8E6</color>
+    <color name="light_on_tertiary">#FFFFFF</color>
+    <color name="light_on_tertiary_container">#8B1810</color>
+    
+    <color name="light_background">#FFFFFF</color>
+    <color name="light_surface">#F2F2F7</color>
+    <color name="light_surface_variant">#E5E5EA</color>
+    <color name="light_on_background">#000000</color>
+    <color name="light_on_surface">#000000</color>
+    <color name="light_on_surface_variant">#3A3A3C</color>
+    
+    <color name="light_outline">#D1D1D6</color>
+    <color name="light_outline_variant">#C7C7CC</color>
+    
+    <!-- Dark Mode Colors -->
+    <color name="dark_primary">#64B5F6</color>
+    <color name="dark_primary_container">#0051C8</color>
+    <color name="dark_on_primary">#001F5E</color>
+    <color name="dark_on_primary_container">#E8F2FF</color>
+    
+    <color name="dark_secondary">#34C759</color>
+    <color name="dark_secondary_container">#1B5C2E</color>
+    <color name="dark_on_secondary">#FFFFFF</color>
+    <color name="dark_on_secondary_container">#E8F9F0</color>
+    
+    <color name="dark_tertiary">#FF6B63</color>
+    <color name="dark_tertiary_container">#8B1810</color>
+    <color name="dark_on_tertiary">#FFFFFF</color>
+    <color name="dark_on_tertiary_container">#FFE8E6</color>
+    
+    <color name="dark_background">#000000</color>
+    <color name="dark_surface">#1C1C1E</color>
+    <color name="dark_surface_variant">#3A3A3C</color>
+    <color name="dark_on_background">#FFFFFF</color>
+    <color name="dark_on_surface">#FFFFFF</color>
+    <color name="dark_on_surface_variant">#C7C7CC</color>
+    
+    <color name="dark_outline">#5A5A5C</color>
+    <color name="dark_outline_variant">#424245</color>
+    
+    <!-- Neutral Gray Palette -->
+    <color name="gray_1">#8E8E93</color>
+    <color name="gray_2">#A2A2A7</color>
+    <color name="gray_3">#C7C7CC</color>
+    <color name="gray_4">#D1D1D6</color>
+    <color name="gray_5">#E5E5EA</color>
+    <color name="gray_6">#F2F2F7</color>
     
     <!-- System Colors -->
     <color name="ios_green">#34C759</color>
     <color name="ios_red">#FF3B30</color>
     <color name="ios_blue">#007AFF</color>
-    <color name="ios_gray">#8E8E93</color>
-    <color name="ios_gray_light">#D1D1D6</color>
-    <color name="ios_gray_dark">#3A3A3C</color>
+    <color name="ios_orange">#FF9500</color>
+    <color name="ios_yellow">#FFCC00</color>
+    <color name="ios_pink">#FF2D55</color>
+    <color name="ios_purple">#AF52DE</color>
+    <color name="ios_cyan">#32ADE6</color>
     
-    <!-- Compat -->
+    <!-- Compat (Legacy) -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Button Styles -->
+    <style name="Widget.Phone.Button.Primary" parent="Widget.Material3.Button.Primary">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="android:minHeight">@dimen/button_height_48</item>
+        <item name="cornerRadius">@dimen/corner_radius_8</item>
+    </style>
+    
+    <style name="Widget.Phone.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="android:minHeight">@dimen/button_height_48</item>
+        <item name="cornerRadius">@dimen/corner_radius_8</item>
+    </style>
+    
+    <style name="Widget.Phone.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="android:minHeight">@dimen/button_height_48</item>
+    </style>
+    
+    <!-- FloatingActionButton Styles -->
+    <style name="Widget.Phone.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelMedium</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="cornerRadius">@dimen/corner_radius_16</item>
+    </style>
+    
+    <!-- Card Styles -->
+    <style name="Widget.Phone.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.BodyMedium</item>
+        <item name="cornerRadius">@dimen/corner_radius_12</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+    
+    <!-- EditText Styles -->
+    <style name="Widget.Phone.EditText" parent="Widget.Material3.TextInputEditText">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.BodyMedium</item>
+        <item name="fontFamily">@font/sf_pro_display</item>
+        <item name="android:minHeight">@dimen/button_height_48</item>
+        <item name="android:padding">@dimen/spacing_12</item>
+    </style>
+    
+    <!-- Chip Styles -->
+    <style name="Widget.Phone.Chip" parent="Widget.Material3.Chip.Assist">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelMedium</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="cornerRadius">@dimen/corner_radius_8</item>
+    </style>
+    
+    <!-- BottomNavigation Styles -->
+    <style name="Widget.Phone.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:textAppearance">@style/TextAppearance.Phone.LabelSmall</item>
+        <item name="fontFamily">@font/sf_pro_rounded</item>
+    </style>
+    
+    <!-- TopAppBar Styles -->
+    <style name="Widget.Phone.TopAppBar" parent="Widget.Material3.AppBarLayout.Primary">
+        <item name="android:elevation">2dp</item>
+    </style>
+    
+    <style name="Widget.Phone.TopAppBar.CenterAligned" parent="Widget.Material3.AppBarLayout.CenterAligned.Primary">
+        <item name="android:elevation">2dp</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Phone.TitleLarge</item>
+    </style>
+    
+    <!-- Dialog Styles -->
+    <style name="Widget.Phone.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Phone.Button.Primary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Phone.Button.Text</item>
+    </style>
+</resources>

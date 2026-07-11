@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_2">2dp</dimen>
+    <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_24">24dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+    
+    <!-- Corner Radius -->
+    <dimen name="corner_radius_0">0dp</dimen>
+    <dimen name="corner_radius_2">2dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="corner_radius_12">12dp</dimen>
+    <dimen name="corner_radius_16">16dp</dimen>
+    <dimen name="corner_radius_20">20dp</dimen>
+    <dimen name="corner_radius_28">28dp</dimen>
+    
+    <!-- Button Size -->
+    <dimen name="button_height_48">48dp</dimen>
+    <dimen name="button_height_40">40dp</dimen>
+    <dimen name="button_height_36">36dp</dimen>
+    
+    <!-- Icon Size -->
+    <dimen name="icon_size_24">24dp</dimen>
+    <dimen name="icon_size_32">32dp</dimen>
+    <dimen name="icon_size_48">48dp</dimen>
+    <dimen name="icon_size_56">56dp</dimen>
+</resources>
