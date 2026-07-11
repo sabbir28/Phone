@@ -18,7 +18,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Up JDK 17
+      - name: Set Up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -31,40 +31,59 @@ jobs:
       - name: Grant Execute Permission
         run: chmod +x gradlew
 
+      - name: Clean Project
+        run: ./gradlew clean
+
       - name: Build Release APK and AAB
-        run: |
-          ./gradlew clean
-          ./gradlew assembleRelease bundleRelease
+        run: ./gradlew assembleRelease bundleRelease --stacktrace
 
       - name: Show Build Outputs
         run: |
-          echo "==== APK ===="
-          find app/build/outputs/apk -type f || true
+          echo "================ APK FILES ================"
+          find . -name "*.apk" || true
 
           echo ""
-          echo "==== AAB ===="
-          find app/build/outputs/bundle -type f || true
+          echo "================ AAB FILES ================"
+          find . -name "*.aab" || true
 
-      - name: Verify APK Exists
+      - name: Locate APK
+        id: apk
         run: |
-          test -f app/build/outputs/apk/release/app-release.apk
+          APK=$(find . -name "*.apk" | head -n 1)
 
-      - name: Verify AAB Exists
+          if [ -z "$APK" ]; then
+            echo "No APK was generated."
+            exit 1
+          fi
+
+          echo "Found APK: $APK"
+          echo "path=$APK" >> "$GITHUB_OUTPUT"
+
+      - name: Locate AAB
+        id: aab
         run: |
-          test -f app/build/outputs/bundle/release/app-release.aab
+          AAB=$(find . -name "*.aab" | head -n 1)
+
+          if [ -z "$AAB" ]; then
+            echo "No AAB was generated."
+            exit 1
+          fi
+
+          echo "Found AAB: $AAB"
+          echo "path=$AAB" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Release-APK
-          path: app/build/outputs/apk/release/app-release.apk
+          name: Android-APK
+          path: ${{ steps.apk.outputs.path }}
           if-no-files-found: error
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Release-AAB
-          path: app/build/outputs/bundle/release/app-release.aab
+          name: Android-AAB
+          path: ${{ steps.aab.outputs.path }}
           if-no-files-found: error
 
       - name: Create GitHub Release
@@ -74,7 +93,7 @@ jobs:
           name: Android Release v${{ github.run_number }}
           generate_release_notes: true
           files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+            ${{ steps.apk.outputs.path }}
+            ${{ steps.aab.outputs.path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
