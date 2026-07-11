@@ -24,7 +24,7 @@
     <!-- FloatingActionButton Styles -->
     <style name="Widget.Phone.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelMedium</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="cornerRadius">@dimen/corner_radius_16</item>
     </style>
     
@@ -46,14 +46,14 @@
     <!-- Chip Styles -->
     <style name="Widget.Phone.Chip" parent="Widget.Material3.Chip.Assist">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelMedium</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="cornerRadius">@dimen/corner_radius_8</item>
     </style>
     
     <!-- BottomNavigation Styles -->
     <style name="Widget.Phone.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelSmall</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
     </style>
     
     <!-- TopAppBar Styles -->

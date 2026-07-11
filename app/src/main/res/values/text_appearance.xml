@@ -38,7 +38,7 @@
     </style>
     
     <style name="TextAppearance.Phone.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:lineHeight">20sp</item>

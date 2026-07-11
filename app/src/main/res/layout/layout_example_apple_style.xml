@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/light_background"
     android:orientation="vertical"
     android:padding="@dimen/spacing_16">
 
@@ -118,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chip 2"
-            app:chipBackgroundColor="?attr/colorPrimaryContainer"
-            app:chipStrokeColor="?attr/colorPrimary"
-            app:chipTextColor="?attr/colorOnPrimaryContainer" />
+            app:chipBackgroundColor="@color/light_primary_container"
+            app:chipStrokeColor="@color/light_primary"
+            app:chipTextColor="@color/light_on_primary_container" />
     </com.google.android.material.chip.ChipGroup>
 
     <!-- Secondary content section -->
