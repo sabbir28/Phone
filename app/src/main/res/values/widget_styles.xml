@@ -3,21 +3,21 @@
     <!-- Button Styles -->
     <style name="Widget.Phone.Button.Primary" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="android:minHeight">@dimen/button_height_48</item>
         <item name="cornerRadius">@dimen/corner_radius_8</item>
     </style>
     
     <style name="Widget.Phone.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="android:minHeight">@dimen/button_height_48</item>
         <item name="cornerRadius">@dimen/corner_radius_8</item>
     </style>
     
     <style name="Widget.Phone.Button.Text" parent="Widget.Material3.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.Phone.LabelLarge</item>
-        <item name="fontFamily">@font/sf_pro_rounded</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="android:minHeight">@dimen/button_height_48</item>
     </style>
     
@@ -38,7 +38,7 @@
     <!-- EditText Styles -->
     <style name="Widget.Phone.EditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
         <item name="android:textAppearance">@style/TextAppearance.Phone.BodyMedium</item>
-        <item name="fontFamily">@font/sf_pro_display</item>
+        <item name="fontFamily">sans-serif</item>
         <item name="android:minHeight">@dimen/button_height_48</item>
         <item name="android:padding">@dimen/spacing_12</item>
     </style>
