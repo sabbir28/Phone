@@ -88,6 +88,12 @@ public class CallManager {
         }
     }
 
+    public boolean isSpeakerphoneOn(android.content.Context context) {
+        android.media.AudioManager audioManager = 
+            (android.media.AudioManager) context.getSystemService(android.content.Context.AUDIO_SERVICE);
+        return audioManager != null && audioManager.isSpeakerphoneOn();
+    }
+
     public Call getCurrentCall() {
         return currentCall;
     }

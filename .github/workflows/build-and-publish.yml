@@ -26,25 +26,29 @@ jobs:
       - name: Grant Execute Permission
         run: chmod +x ./gradlew
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      - name: Build Release and Debug APKs
+        run: |
+          ./gradlew assembleRelease assembleDebug
 
-      - name: Build Release AAB
-        run: ./gradlew bundleRelease
+      - name: Build Release and Debug AABs
+        run: |
+          ./gradlew bundleRelease bundleDebug
 
-      - name: Upload APK Artifact
+      - name: Upload all APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          name: android-apks
+          path: |
+            app/build/outputs/**/*.apk
 
-      - name: Upload AAB Artifact
+      - name: Upload all AAB artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: android-aab
-          path: app/build/outputs/bundle/release/app-release.aab
+          name: android-aabs
+          path: |
+            app/build/outputs/**/*.aab
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release with all artifacts
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
@@ -53,7 +57,7 @@ jobs:
             Automated build from commit:
             ${{ github.sha }}
           files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+            app/build/outputs/**/*.apk
+            app/build/outputs/**/*.aab
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

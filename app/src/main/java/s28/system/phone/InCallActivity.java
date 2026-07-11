@@ -1,6 +1,9 @@
 package s28.system.phone;
 
 import android.content.Context;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.content.ContextCompat;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,6 +98,13 @@ public class InCallActivity extends AppCompatActivity {
             // TODO: Implement keypad overlay
         });
 
+        // Initialize speaker state from system
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager != null) {
+            isSpeakerOn = audioManager.isSpeakerphoneOn();
+            updateSpeakerButton();
+        }
+
         updateUI(callManager.getCurrentCall());
     }
 
@@ -155,8 +165,26 @@ public class InCallActivity extends AppCompatActivity {
 
     private void toggleSpeaker() {
         isSpeakerOn = !isSpeakerOn;
+        
+        // Use AudioManager for direct speaker control
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager != null) {
+            audioManager.setSpeakerphoneOn(isSpeakerOn);
+        }
+        
+        // Also set via CallManager if available
         callManager.setAudioRoute(isSpeakerOn ? CallAudioState.ROUTE_SPEAKER : CallAudioState.ROUTE_EARPIECE);
+        
+        updateSpeakerButton();
+    }
+
+    private void updateSpeakerButton() {
         binding.btnSpeaker.setSelected(isSpeakerOn);
+        if (isSpeakerOn) {
+            binding.btnSpeaker.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#34C759")));
+        } else {
+            binding.btnSpeaker.setBackgroundTintList(null);
+        }
     }
 
     private void toggleRecording() {
@@ -165,6 +193,12 @@ public class InCallActivity extends AppCompatActivity {
             binding.tvRecordStatus.setText("record");
             binding.btnRecord.setColorFilter(null);
         } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Request required permissions (will callback to Activity.onRequestPermissionsResult)
+                s28.system.phone.utils.PermissionManager.requestPermissions(this);
+                return;
+            }
             recordingManager.startRecording(this);
             binding.tvRecordStatus.setText("recording...");
             binding.btnRecord.setColorFilter(android.graphics.Color.RED);

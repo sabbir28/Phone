@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="6dp">
 
     <LinearLayout
         android:id="@+id/buttonContainer"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/bg_dial_button"
         android:gravity="center"
         android:orientation="vertical"
@@ -24,16 +24,19 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:textColor="@android:color/black"
-            android:textSize="32sp" />
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvLetters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:includeFontPadding="false"
-            android:textColor="@android:color/black"
-            android:textSize="10sp"
-            android:textAllCaps="true" />
+            android:textColor="@color/ios_gray"
+            android:textSize="11sp"
+            android:textAllCaps="true"
+            android:textStyle="normal" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
