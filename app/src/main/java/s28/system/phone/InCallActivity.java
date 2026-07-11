@@ -221,7 +221,7 @@ public class InCallActivity extends AppCompatActivity {
         if (recordingManager.isRecording()) {
             binding.tvRecordStatus.setText("Recording...");
             binding.btnRecord.setText("STOP");
-            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_tertiary, getTheme())));
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_cyan, getTheme())));
         } else {
             binding.tvRecordStatus.setText("Unable to start recording.");
         }
