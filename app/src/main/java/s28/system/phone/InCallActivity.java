@@ -11,8 +11,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.telecom.Call;
 import android.telecom.CallAudioState;
+import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
@@ -30,6 +33,8 @@ public class InCallActivity extends AppCompatActivity {
     private long callStartTime = 0;
     private boolean isMuted = false;
     private boolean isSpeakerOn = false;
+    private boolean isIncomingRinging = false;
+    private boolean pendingRecordStart = false;
 
     private final Runnable timerRunnable = new Runnable() {
         @Override
@@ -120,7 +125,8 @@ public class InCallActivity extends AppCompatActivity {
 
         int state = call.getState();
         binding.callStatus.setText(stateToString(state));
-        
+        isIncomingRinging = state == Call.STATE_RINGING;
+
         android.net.Uri handle = call.getDetails().getHandle();
         String number = (handle != null) ? handle.getSchemeSpecificPart() : "Private Number";
         binding.callerName.setText(number);
@@ -132,15 +138,19 @@ public class InCallActivity extends AppCompatActivity {
             binding.btnAnswer.setVisibility(View.GONE);
             binding.btnHangup.setVisibility(View.VISIBLE);
         } else if (state == Call.STATE_RINGING) {
+            stopTimer();
             binding.btnAnswer.setVisibility(View.VISIBLE);
             binding.btnHangup.setVisibility(View.VISIBLE); // End/Decline
             binding.tvTimer.setVisibility(View.GONE);
             binding.callStatus.setVisibility(View.VISIBLE);
         } else {
+            stopTimer();
             binding.btnAnswer.setVisibility(View.GONE);
             binding.btnHangup.setVisibility(View.VISIBLE);
             binding.callStatus.setVisibility(View.VISIBLE);
         }
+
+        updateRecordUI(state);
     }
 
     private void startTimer() {
@@ -190,18 +200,69 @@ public class InCallActivity extends AppCompatActivity {
     private void toggleRecording() {
         if (recordingManager.isRecording()) {
             recordingManager.stopRecording();
-            binding.tvRecordStatus.setText("record");
-            binding.btnRecord.setColorFilter(null);
+            binding.tvRecordStatus.setText("Tap REC to start recording");
+            binding.btnRecord.setText("REC");
+            binding.btnRecord.setIcon(null);
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_blue, getTheme())));
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Request required permissions (will callback to Activity.onRequestPermissionsResult)
+                pendingRecordStart = true;
+                Toast.makeText(this, "Microphone permission is required to record calls.", Toast.LENGTH_SHORT).show();
                 s28.system.phone.utils.PermissionManager.requestPermissions(this);
                 return;
             }
-            recordingManager.startRecording(this);
-            binding.tvRecordStatus.setText("recording...");
-            binding.btnRecord.setColorFilter(android.graphics.Color.RED);
+            startRecordingSession();
+        }
+    }
+
+    private void startRecordingSession() {
+        recordingManager.startRecording(this);
+        if (recordingManager.isRecording()) {
+            binding.tvRecordStatus.setText("Recording...");
+            binding.btnRecord.setText("STOP");
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_tertiary, getTheme())));
+        } else {
+            binding.tvRecordStatus.setText("Unable to start recording.");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        updateUI(callManager.getCurrentCall());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == s28.system.phone.utils.PermissionManager.PERMISSION_REQUEST_CODE) {
+            boolean recordGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+            if (recordGranted && pendingRecordStart) {
+                startRecordingSession();
+            } else if (!recordGranted) {
+                Toast.makeText(this, "Recording permission denied.", Toast.LENGTH_SHORT).show();
+            }
+            pendingRecordStart = false;
+        }
+    }
+
+    private void updateRecordUI(int state) {
+        boolean activeCall = state == Call.STATE_ACTIVE;
+        binding.btnRecord.setVisibility(activeCall ? View.VISIBLE : View.GONE);
+        binding.tvRecordStatus.setVisibility(activeCall ? View.VISIBLE : View.GONE);
+
+        if (!activeCall) {
+            binding.tvRecordStatus.setText("Recording available once call is active.");
+        } else if (recordingManager.isRecording()) {
+            binding.tvRecordStatus.setText("Recording...");
+            binding.btnRecord.setText("STOP");
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_tertiary, getTheme())));
+        } else {
+            binding.tvRecordStatus.setText("Tap REC to start recording");
+            binding.btnRecord.setText("REC");
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_blue, getTheme())));
         }
     }
 

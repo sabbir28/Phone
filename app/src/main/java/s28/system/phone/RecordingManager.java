@@ -27,9 +27,11 @@ public class RecordingManager {
         currentFilePath = recordDir.getAbsolutePath() + "/Call_" + timeStamp + ".amr";
 
         recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        recorder.setAudioSamplingRate(44100);
+        recorder.setAudioEncodingBitRate(128000);
         recorder.setOutputFile(currentFilePath);
 
         try {
