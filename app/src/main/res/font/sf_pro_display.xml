@@ -5,7 +5,19 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@android:font/sans_serif"
+        android:font="@font/sf_pro_display_regular"
         app:fontStyle="normal"
         app:fontWeight="400" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        android:font="@font/sf_pro_display_medium"
+        app:fontStyle="normal"
+        app:fontWeight="500" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="600"
+        android:font="@font/sf_pro_display_semibold"
+        app:fontStyle="normal"
+        app:fontWeight="600" />
 </font-family>
