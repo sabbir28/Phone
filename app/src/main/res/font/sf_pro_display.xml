@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- Light weight is not included as it's less commonly used -->
+    <!-- SF Pro Display - Regular weight -->
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/sf_pro_display_regular"
+        android:font="@android:font/sans_serif"
         app:fontStyle="normal"
         app:fontWeight="400" />
 </font-family>
