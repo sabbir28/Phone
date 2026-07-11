@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="32dp">
+
+    <TextView
+        android:id="@+id/callerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/callStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#8E8E93"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/callerName" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/callStatus" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toTopOf="@id/btnHangup"
+        app:layout_constraintTop_toBottomOf="@id/tvTimer"
+        app:layout_constraintVertical_bias="0.7">
+
+        <!-- Mute -->
+        <LinearLayout
+            android:id="@+id/llMute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/llKeypad"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnMute"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_mic"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="mute"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Keypad -->
+        <LinearLayout
+            android:id="@+id/llKeypad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/llSpeaker"
+            app:layout_constraintStart_toEndOf="@+id/llMute"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnKeypad"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_dialer"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="keypad"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Speaker -->
+        <LinearLayout
+            android:id="@+id/llSpeaker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/llKeypad"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnSpeaker"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_settings"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="audio"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Second Row -->
+        <LinearLayout
+            android:id="@+id/llAddCall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/llFaceTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llMute">
+
+            <ImageButton
+                android:id="@+id/btnAddCall"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_call"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="add call"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFaceTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/llContacts"
+            app:layout_constraintStart_toEndOf="@+id/llAddCall"
+            app:layout_constraintTop_toBottomOf="@id/llKeypad">
+
+            <ImageButton
+                android:id="@+id/btnRecord"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_fiber_manual_record"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvRecordStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="record"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llContacts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/llFaceTime"
+            app:layout_constraintTop_toBottomOf="@id/llSpeaker">
+
+            <ImageButton
+                android:id="@+id/btnContacts"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/bg_incall_button"
+                android:src="@drawable/ic_contacts"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="contacts"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnHangup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/ic_call"
+        android:rotation="135"
+        app:backgroundTint="#FF3B30"
+        app:elevation="0dp"
+        app:fabCustomSize="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="36dp"
+        app:tint="#FFFFFF" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/ic_call"
+        android:visibility="gone"
+        app:backgroundTint="#34C759"
+        app:elevation="0dp"
+        app:fabCustomSize="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="36dp"
+        app:tint="#FFFFFF" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
