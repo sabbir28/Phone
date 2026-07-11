@@ -12,6 +12,7 @@ lifecycleViewModel = "2.8.7"
 lifecycleLiveData = "2.8.7"
 glide = "4.16.0"
 libphonenumber = "8.13.52"
+gridlayout = "1.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -26,6 +27,7 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 libphonenumber = { group = "com.googlecode.libphonenumber", name = "libphonenumber", version.ref = "libphonenumber" }
 libphonenumber-geocoder = { group = "com.googlecode.libphonenumber", name = "geocoder", version.ref = "libphonenumber" }
+androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

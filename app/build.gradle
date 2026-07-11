@@ -42,6 +42,7 @@ dependencies {
     implementation libs.material
     implementation libs.glide
     implementation libs.libphonenumber
+    implementation libs.androidx.gridlayout
     //implementation libs.libphonenumber.geocoder
     annotationProcessor libs.glide.compiler
 }

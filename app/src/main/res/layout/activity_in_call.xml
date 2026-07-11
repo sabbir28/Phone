@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/callStatus" />
 
     <!-- Control Buttons Grid -->
-    <androidx.constraintlayout.widget.GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/buttonGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 
     <!-- Bottom Buttons Container -->
     <androidx.constraintlayout.widget.ConstraintLayout
