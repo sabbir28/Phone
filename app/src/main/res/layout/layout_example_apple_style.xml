@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_4"
-        android:text="Dark & Light Mode Perfect"
+        android:text="Dark &amp; Light Mode Perfect"
         android:textAppearance="@style/TextAppearance.Phone.BodyMedium"
         android:textColor="?attr/colorOnSurfaceVariant" />
 
