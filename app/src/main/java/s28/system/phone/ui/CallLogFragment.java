@@ -19,6 +19,8 @@ public class CallLogFragment extends Fragment {
     private FragmentCallLogBinding binding;
     private CallLogRepository repository;
 
+    private CallLogAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,12 +38,20 @@ public class CallLogFragment extends Fragment {
     private void setupRecyclerView() {
         if (PermissionManager.hasAllPermissions(requireContext())) {
             binding.rvCallLog.setLayoutManager(new LinearLayoutManager(requireContext()));
-            CallLogAdapter adapter = new CallLogAdapter(repository.getCallLogs(), item -> {
+            adapter = new CallLogAdapter(repository.getCallLogs(), item -> {
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + item.getNumber()));
                 startActivity(intent);
             });
             binding.rvCallLog.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (adapter != null) {
+            adapter.releaseMediaPlayer();
         }
     }
 }

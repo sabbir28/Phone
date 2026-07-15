@@ -43,6 +43,8 @@ dependencies {
     implementation libs.glide
     implementation libs.libphonenumber
     implementation libs.androidx.gridlayout
+    implementation libs.androidx.core.splashscreen
+    implementation libs.androidx.work.runtime
     //implementation libs.libphonenumber.geocoder
     annotationProcessor libs.glide.compiler
 }

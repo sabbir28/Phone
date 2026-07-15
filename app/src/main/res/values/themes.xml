@@ -58,6 +58,13 @@
         <item name="android:navigationBarColor">@color/light_background</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/vibrant_blue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_call</item>
+        <item name="postSplashScreenTheme">@style/Theme.Phone</item>
+    </style>
     
     <!-- Shape Appearances -->
     <style name="ShapeAppearance.Phone.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">

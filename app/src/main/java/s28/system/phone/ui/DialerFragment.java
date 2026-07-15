@@ -32,6 +32,10 @@ public class DialerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.btnSettings.setOnClickListener(v -> {
+            startActivity(new android.content.Intent(getContext(), s28.system.phone.SettingsActivity.class));
+        });
+
         binding.dialpadGrid.setAdapter(new DialpadAdapter());
         
         binding.fabCall.setOnClickListener(v -> {

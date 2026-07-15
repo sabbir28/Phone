@@ -17,10 +17,13 @@ public class PermissionManager {
         Manifest.permission.CALL_PHONE,
         Manifest.permission.RECORD_AUDIO,
         Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.READ_PHONE_NUMBERS,
         Manifest.permission.READ_CONTACTS,
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_CALL_LOG,
-        Manifest.permission.WRITE_CALL_LOG
+        Manifest.permission.WRITE_CALL_LOG,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.CAMERA
     };
 
     public static boolean hasAllPermissions(Context context) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/bg_incall_button"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvDtmfDigit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tvDtmfLetters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/ios_gray"
+        android:textSize="10sp"
+        android:textAllCaps="true"
+        android:visibility="gone" />
+
+</LinearLayout>

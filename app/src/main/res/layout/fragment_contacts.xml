@@ -1,58 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/ios_light_bg">
+    android:layout_height="match_parent">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tvContactsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Contacts"
-        android:textColor="@android:color/black"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Search Bar -->
-    <com.google.android.material.search.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:hint="Search contacts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvContactsTitle" />
-
-    <!-- Contacts RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvContacts"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/ios_light_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main_gradient"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvContactsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Contacts"
+            android:textColor="@color/light_on_background"
+            android:textSize="34sp"
+            android:fontFamily="sans-serif-black" />
+
+        <!-- Search Bar -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="16dp"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search contacts"
+            app:queryBackground="@android:color/transparent"
+            android:background="@drawable/bg_glass_card"
+            android:padding="4dp" />
+
+        <!-- Glass Card for Contacts -->
+        <FrameLayout
+            android:id="@+id/contactsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp">
+
+            <View
+                android:id="@+id/contactsBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_glass_card" />
+
+            <!-- Contacts RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvContacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:clipToPadding="false"
+                android:padding="8dp" />
+        </FrameLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
         android:contentDescription="Add contact"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/ios_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:backgroundTint="@color/vibrant_blue"
+        app:tint="@android:color/white"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Phone.MediumComponent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

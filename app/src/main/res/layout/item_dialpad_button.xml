@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp">
+    android:background="@drawable/bg_glass_button"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="4dp">
 
-    <LinearLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/bg_dial_button"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+    <TextView
+        android:id="@+id/tvDigit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="@color/light_on_background"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-medium" />
 
-        <TextView
-            android:id="@+id/tvDigit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:textColor="@android:color/black"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvLetters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/vibrant_blue"
+        android:textSize="10sp"
+        android:textAllCaps="true"
+        android:fontFamily="sans-serif-condensed" />
 
-        <TextView
-            android:id="@+id/tvLetters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:includeFontPadding="false"
-            android:textColor="@color/ios_gray"
-            android:textSize="11sp"
-            android:textAllCaps="true"
-            android:textStyle="normal" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

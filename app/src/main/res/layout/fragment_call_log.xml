@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ios_light_bg">
+    android:background="@drawable/bg_main_gradient"
+    android:orientation="vertical">
 
     <!-- Title -->
     <TextView
         android:id="@+id/tvRecentsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:text="Recents"
-        android:textColor="@android:color/black"
+        android:textColor="@color/light_on_background"
         android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="sans-serif-black" />
 
-    <!-- Call Log RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCallLog"
+    <!-- Glass Card for Recents -->
+    <FrameLayout
+        android:id="@+id/recentsContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/ios_light_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRecentsTitle" />
+        android:layout_weight="1"
+        android:layout_margin="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/recentsBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_glass_card" />
+
+        <!-- Call Log RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCallLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:clipToPadding="false"
+            android:padding="8dp" />
+    </FrameLayout>
+
+</LinearLayout>

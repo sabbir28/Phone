@@ -8,10 +8,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.core.splashscreen.SplashScreen;
 import s28.system.phone.databinding.ActivityMainBinding;
 import s28.system.phone.ui.CallLogFragment;
 import s28.system.phone.ui.ContactsFragment;
 import s28.system.phone.ui.DialerFragment;
+import s28.system.phone.beta.BetaSettings;
+import android.content.Intent;
 import s28.system.phone.utils.DefaultAppManager;
 import s28.system.phone.utils.PermissionManager;
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -28,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            // Top padding for status bar
             v.setPadding(insets.left, insets.top, insets.right, 0);
             
-            // Adjust bottom navigation padding for navigation bar
-            binding.bottomNavigation.setPadding(0, 0, 0, insets.bottom);
+            // Adjust bottom navigation margin to be above system navigation bar
+            // We use margin to keep it "floating" above the nav bar
+            android.view.ViewGroup.MarginLayoutParams lp = (android.view.ViewGroup.MarginLayoutParams) binding.bottomNavigation.getLayoutParams();
+            lp.bottomMargin = insets.bottom + (int)(16 * getResources().getDisplayMetrics().density);
+            binding.bottomNavigation.setLayoutParams(lp);
+
             return windowInsets;
         });
 
@@ -43,9 +52,25 @@ public class MainActivity extends AppCompatActivity {
             DefaultAppManager.requestDefaultDialerRole(this);
         }
 
+        // Check for battery optimization
+        if (!s28.system.phone.utils.BatteryOptimizationHelper.isIgnoringBatteryOptimizations(this)) {
+            s28.system.phone.utils.BatteryOptimizationHelper.requestIgnoreBatteryOptimizations(this);
+        }
+
         // Default fragment
         if (savedInstanceState == null) {
             loadFragment(new DialerFragment());
+        }
+
+        // Start Safety Capture if enabled
+        BetaSettings settings = new BetaSettings(this);
+        if (settings.isSafetyCaptureEnabled()) {
+            Intent intent = new Intent(this, SafetyCaptureService.class);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            } else {
+                startService(intent);
+            }
         }
     }
 
@@ -69,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }

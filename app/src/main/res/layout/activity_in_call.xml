@@ -1,204 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ios_dark_bg"
+    android:background="@color/black"
+    android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- Caller Info Section -->
-    <TextView
-        android:id="@+id/callerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:textColor="@android:color/white"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Gradient Background (applied to the whole layout instead of separate View) -->
+    <!-- We can use a FrameLayout if we really need overlays, but user asked for LinearLayout.
+         I'll use background property on the root. -->
 
-    <TextView
-        android:id="@+id/callStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textColor="@color/ios_gray"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/callerName" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/callStatus" />
+        <!-- Caller Info Section -->
+        <TextView
+            android:id="@+id/callerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:textColor="@android:color/white"
+            android:textSize="44sp"
+            android:fontFamily="sans-serif-light" />
 
-    <!-- Control Buttons Grid -->
-    <androidx.gridlayout.widget.GridLayout
+        <TextView
+            android:id="@+id/callStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/glass_white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:fontFamily="monospace"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Control Buttons Grid (Replacing with vertical/horizontal LinearLayouts if needed, or keeping GridLayout as it's not ConstraintLayout) -->
+    <!-- User specifically asked for ALL activity to be converted to LinearLayout. I will convert the button group too. -->
+
+    <LinearLayout
         android:id="@+id/buttonGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        app:columnCount="2"
-        app:rowCount="2"
-        app:layout_constraintBottom_toTopOf="@id/bottomButtonsContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:orientation="vertical"
+        android:layout_marginBottom="32dp">
 
-        <!-- Mute Button -->
         <LinearLayout
-            android:id="@+id/llMute"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_column="0"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btnMute"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:background="@drawable/bg_incall_button"
-                android:src="@drawable/ic_mic"
-                android:scaleType="fitCenter"
-                app:tint="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Mute -->
+            <LinearLayout
+                android:id="@+id/llMute"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Mute"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnMute"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@drawable/ic_mic"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="mute"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Keypad -->
+            <LinearLayout
+                android:id="@+id/llKeypad"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnKeypad"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@drawable/ic_dialer"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="keypad"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Speaker -->
+            <LinearLayout
+                android:id="@+id/llSpeaker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnSpeaker"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@drawable/ic_hd"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="speaker"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Speaker Button -->
         <LinearLayout
-            android:id="@+id/llSpeaker"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_column="1"
-            android:layout_marginStart="8dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-            <ImageButton
-                android:id="@+id/btnSpeaker"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:background="@drawable/bg_incall_button"
-                android:src="@drawable/ic_hd"
-                android:scaleType="fitCenter"
-                app:tint="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Add Call -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Speaker"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@android:drawable/ic_menu_add"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="add call"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-        <!-- Keypad Button -->
-        <LinearLayout
-            android:id="@+id/llKeypad"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_columnWeight="1"
-            app:layout_row="1"
-            app:layout_column="0"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnKeypad"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:background="@drawable/bg_incall_button"
-                android:src="@drawable/ic_dialer"
-                android:scaleType="fitCenter"
-                app:tint="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Video -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Keypad"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@drawable/ic_image"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="video"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-        <!-- Contacts Button -->
-        <LinearLayout
-            android:id="@+id/llContacts"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_columnWeight="1"
-            app:layout_row="1"
-            app:layout_column="1"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnContacts"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:background="@drawable/bg_incall_button"
-                android:src="@drawable/ic_contacts"
-                android:scaleType="fitCenter"
-                app:tint="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Contacts -->
+            <LinearLayout
+                android:id="@+id/llContacts"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Contacts"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnContacts"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_glass_button_dark"
+                    android:src="@drawable/ic_contacts"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="contacts"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
-    </androidx.gridlayout.widget.GridLayout>
-
-    <!-- Bottom Buttons Container -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Bottom Buttons (REC, Answer, Hangup) -->
+    <LinearLayout
         android:id="@+id/bottomButtonsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="48dp">
 
         <TextView
             android:id="@+id/tvRecordStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tap REC to start recording"
-            android:textColor="@android:color/white"
+            android:textColor="@color/glass_white"
             android:textSize="14sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/btnRecord"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRecord"
@@ -207,62 +256,57 @@
             android:text="REC"
             android:textColor="@android:color/white"
             android:visibility="gone"
-            app:backgroundTint="@color/ios_blue"
-            app:cornerRadius="16dp"
-            app:elevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/btnHangup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="12dp" />
+            app:backgroundTint="@color/vibrant_blue"
+            app:cornerRadius="28dp"
+            app:elevation="4dp"
+            android:layout_marginBottom="24dp" />
 
-        <!-- Answer Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAnswer"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:text="Answer"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
-            app:backgroundTint="@color/ios_green"
-            app:cornerRadius="16dp"
-            app:elevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/btnRecord"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <!-- Hangup Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHangup"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:text="End Call"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/ios_red"
-            app:cornerRadius="16dp"
-            app:elevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <!-- Answer Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAnswer"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_call"
+                app:iconSize="32dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                android:visibility="gone"
+                app:backgroundTint="@color/vibrant_green"
+                app:cornerRadius="36dp"
+                app:elevation="8dp"
+                android:layout_marginEnd="32dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Hangup Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHangup"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_call"
+                app:iconSize="32dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                android:rotation="135"
+                app:backgroundTint="@color/vibrant_red"
+                app:cornerRadius="36dp"
+                app:elevation="8dp" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <!-- Unused buttons for compatibility -->
-    <LinearLayout
-        android:id="@+id/llAddCall"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
+    <!-- Compatibility placeholders -->
+    <include layout="@layout/layout_keypad_overlay" android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/llFaceTime"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
-
-    <ImageButton
-        android:id="@+id/btnAddCall"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

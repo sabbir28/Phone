@@ -6,6 +6,7 @@ public class CallLogItem {
     private final int type;
     private final long date;
     private final long duration;
+    private boolean isExpanded = false;
 
     public CallLogItem(String number, String name, int type, long date, long duration) {
         this.number = number;
@@ -20,4 +21,7 @@ public class CallLogItem {
     public int getType() { return type; }
     public long getDate() { return date; }
     public long getDuration() { return duration; }
+
+    public boolean isExpanded() { return isExpanded; }
+    public void setExpanded(boolean expanded) { isExpanded = expanded; }
 }

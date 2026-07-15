@@ -11,10 +11,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.telecom.Call;
 import android.telecom.CallAudioState;
+import android.media.projection.MediaProjectionManager;
 import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +39,10 @@ public class InCallActivity extends AppCompatActivity {
     private boolean isSpeakerOn = false;
     private boolean isIncomingRinging = false;
     private boolean pendingRecordStart = false;
+    private boolean isSystemRecordingMode = false;
+    private boolean isGoogleRecordingMode = false;
+
+    private ActivityResultLauncher<Intent> projectionLauncher;
 
     private final Runnable timerRunnable = new Runnable() {
         @Override
@@ -92,6 +100,17 @@ public class InCallActivity extends AppCompatActivity {
         recordingManager = new RecordingManager();
         callManager.addListener(callListener);
 
+        projectionLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        startSystemRecording(result.getResultCode(), result.getData());
+                    } else {
+                        Toast.makeText(this, "Screen capture permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
         binding.btnAnswer.setOnClickListener(v -> callManager.answer());
         binding.btnHangup.setOnClickListener(v -> callManager.disconnect());
         
@@ -99,9 +118,9 @@ public class InCallActivity extends AppCompatActivity {
         binding.btnSpeaker.setOnClickListener(v -> toggleSpeaker());
         binding.btnRecord.setOnClickListener(v -> toggleRecording());
         
-        binding.btnKeypad.setOnClickListener(v -> {
-            // TODO: Implement keypad overlay
-        });
+        binding.btnKeypad.setOnClickListener(v -> showKeypad());
+        
+        setupKeypad();
 
         // Initialize speaker state from system
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -111,6 +130,15 @@ public class InCallActivity extends AppCompatActivity {
         }
 
         updateUI(callManager.getCurrentCall());
+
+        // Check for Auto Record (Beta Feature)
+        if (getIntent().getBooleanExtra("EXTRA_AUTO_RECORD", false)) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (!recordingManager.isRecording()) {
+                    startRecordingSession();
+                }
+            }, 1000); // Small delay to ensure call is active
+        }
     }
 
     private void updateUI(Call call) {
@@ -137,17 +165,23 @@ public class InCallActivity extends AppCompatActivity {
             binding.callStatus.setVisibility(View.GONE);
             binding.btnAnswer.setVisibility(View.GONE);
             binding.btnHangup.setVisibility(View.VISIBLE);
+            binding.btnHangup.setText("End Call");
+            binding.buttonGrid.setVisibility(View.VISIBLE);
         } else if (state == Call.STATE_RINGING) {
             stopTimer();
             binding.btnAnswer.setVisibility(View.VISIBLE);
-            binding.btnHangup.setVisibility(View.VISIBLE); // End/Decline
+            binding.btnHangup.setVisibility(View.VISIBLE);
+            binding.btnHangup.setText("Decline");
             binding.tvTimer.setVisibility(View.GONE);
             binding.callStatus.setVisibility(View.VISIBLE);
+            binding.buttonGrid.setVisibility(View.INVISIBLE);
         } else {
             stopTimer();
             binding.btnAnswer.setVisibility(View.GONE);
             binding.btnHangup.setVisibility(View.VISIBLE);
+            binding.btnHangup.setText("End Call");
             binding.callStatus.setVisibility(View.VISIBLE);
+            binding.buttonGrid.setVisibility(View.INVISIBLE);
         }
 
         updateRecordUI(state);
@@ -199,7 +233,27 @@ public class InCallActivity extends AppCompatActivity {
 
     private void toggleRecording() {
         if (recordingManager.isRecording()) {
-            recordingManager.stopRecording();
+            String duration = binding.tvTimer.getText().toString();
+            Call currentCall = callManager.getCurrentCall();
+            String direction = "Unknown";
+            if (currentCall != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    int dir = currentCall.getDetails().getCallDirection();
+                    direction = (dir == android.telecom.Call.Details.DIRECTION_INCOMING) ? "Incoming 📥" : "Outgoing 📤";
+                } else {
+                    // Fallback for older versions
+                    direction = isIncomingRinging ? "Incoming 📥" : "Outgoing 📤";
+                }
+            }
+            
+            recordingManager.stopRecording(this, duration, direction);
+            
+            if (isGoogleRecordingMode) {
+                if (currentCall != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    currentCall.sendCallEvent("android.telecom.event.STOP_CALL_RECORDING", null);
+                }
+            }
+
             binding.tvRecordStatus.setText("Tap REC to start recording");
             binding.btnRecord.setText("REC");
             binding.btnRecord.setIcon(null);
@@ -212,18 +266,75 @@ public class InCallActivity extends AppCompatActivity {
                 s28.system.phone.utils.PermissionManager.requestPermissions(this);
                 return;
             }
-            startRecordingSession();
+            
+            // For Android 10+, show choice or default to system recording if user wants "everything"
+            // For now, let's use a long click to trigger system recording or just a simple toggle.
+            // I will implement a simple dialog or just default to standard and use system as secondary.
+            showRecordingOptions();
         }
     }
 
+    private void showRecordingOptions() {
+        String[] options = {"Record with Original API (Recommended)", "Record System Audio (Screen Capture)"};
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Select Recording Mode")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        isSystemRecordingMode = false;
+                        isGoogleRecordingMode = false;
+                        startRecordingSession();
+                    } else {
+                        isSystemRecordingMode = true;
+                        isGoogleRecordingMode = false;
+                        requestSystemRecording();
+                    }
+                })
+                .show();
+    }
+
+    private void requestSystemRecording() {
+        MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        if (projectionManager != null) {
+            projectionLauncher.launch(projectionManager.createScreenCaptureIntent());
+        }
+    }
+
+    private void startSystemRecording(int resultCode, Intent data) {
+        Call currentCall = callManager.getCurrentCall();
+        String number = "Unknown";
+        if (currentCall != null && currentCall.getDetails().getHandle() != null) {
+            number = currentCall.getDetails().getHandle().getSchemeSpecificPart();
+        }
+        recordingManager.startSystemRecording(this, number, resultCode, data);
+        updateRecordUI(currentCall != null ? currentCall.getState() : Call.STATE_ACTIVE);
+    }
+
     private void startRecordingSession() {
-        recordingManager.startRecording(this);
+        Call currentCall = callManager.getCurrentCall();
+        String number = "Unknown";
+        if (currentCall != null && currentCall.getDetails().getHandle() != null) {
+            number = currentCall.getDetails().getHandle().getSchemeSpecificPart();
+        }
+        
+        recordingManager.startRecording(this, number, isGoogleRecordingMode);
+        
+        if (isGoogleRecordingMode && currentCall != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            try {
+                // Send Google Dialer compatible recording event
+                currentCall.sendCallEvent("android.telecom.event.START_CALL_RECORDING", null);
+                // Also try common OEM variations
+                currentCall.sendCallEvent("com.google.android.dialer.callrecording.START_RECORDING", null);
+            } catch (Exception e) {
+                android.util.Log.e("InCallActivity", "Failed to send call recording event", e);
+            }
+        }
+
         if (recordingManager.isRecording()) {
-            binding.tvRecordStatus.setText("Recording...");
+            binding.tvRecordStatus.setText("Recording Active...");
             binding.btnRecord.setText("STOP");
             binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_cyan, getTheme())));
         } else {
-            binding.tvRecordStatus.setText("Unable to start recording.");
+            binding.tvRecordStatus.setText("Recording Failed to Start.");
         }
     }
 
@@ -232,6 +343,15 @@ public class InCallActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         updateUI(callManager.getCurrentCall());
+
+        // Check for Auto Record (Beta Feature)
+        if (getIntent().getBooleanExtra("EXTRA_AUTO_RECORD", false)) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (!recordingManager.isRecording()) {
+                    startRecordingSession();
+                }
+            }, 1000); // Small delay to ensure call is active
+        }
     }
 
     @Override
@@ -249,6 +369,13 @@ public class InCallActivity extends AppCompatActivity {
     }
 
     private void updateRecordUI(int state) {
+        Call currentCall = callManager.getCurrentCall();
+        if (currentCall != null) {
+            // CAPABILITY_CAN_RECORD_CALL is 0x00800000 in API 23+
+            boolean canRecord = (currentCall.getDetails().getCallCapabilities() & 0x00800000) != 0;
+            android.util.Log.d("InCallActivity", "System capability can record: " + canRecord);
+        }
+
         boolean activeCall = state == Call.STATE_ACTIVE;
         binding.btnRecord.setVisibility(activeCall ? View.VISIBLE : View.GONE);
         binding.tvRecordStatus.setVisibility(activeCall ? View.VISIBLE : View.GONE);
@@ -258,11 +385,82 @@ public class InCallActivity extends AppCompatActivity {
         } else if (recordingManager.isRecording()) {
             binding.tvRecordStatus.setText("Recording...");
             binding.btnRecord.setText("STOP");
-            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_tertiary, getTheme())));
+            binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.light_on_surface_variant, getTheme())));
         } else {
             binding.tvRecordStatus.setText("Tap REC to start recording");
             binding.btnRecord.setText("REC");
             binding.btnRecord.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.ios_blue, getTheme())));
+        }
+    }
+
+    private void showKeypad() {
+        View overlay = findViewById(R.id.keypadOverlay);
+        if (overlay != null) {
+            overlay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideKeypad() {
+        View overlay = findViewById(R.id.keypadOverlay);
+        if (overlay != null) {
+            overlay.setVisibility(View.GONE);
+            TextView tvDigits = findViewById(R.id.tvDigitsDisplay);
+            if (tvDigits != null) tvDigits.setText("");
+        }
+    }
+
+    private void setupKeypad() {
+        View overlay = findViewById(R.id.keypadOverlay);
+        if (overlay == null) return;
+
+        findViewById(R.id.btnHideKeypad).setOnClickListener(v -> hideKeypad());
+
+        setupDtmfButton(R.id.btnDtmf1, '1');
+        setupDtmfButton(R.id.btnDtmf2, '2');
+        setupDtmfButton(R.id.btnDtmf3, '3');
+        setupDtmfButton(R.id.btnDtmf4, '4');
+        setupDtmfButton(R.id.btnDtmf5, '5');
+        setupDtmfButton(R.id.btnDtmf6, '6');
+        setupDtmfButton(R.id.btnDtmf7, '7');
+        setupDtmfButton(R.id.btnDtmf8, '8');
+        setupDtmfButton(R.id.btnDtmf9, '9');
+        setupDtmfButton(R.id.btnDtmf0, '0');
+        setupDtmfButton(R.id.btnDtmfStar, '*');
+        setupDtmfButton(R.id.btnDtmfPound, '#');
+    }
+
+    private void setupDtmfButton(int id, char digit) {
+        View buttonView = findViewById(id);
+        if (buttonView == null) return;
+
+        TextView tvDigit = buttonView.findViewById(R.id.tvDtmfDigit);
+        if (tvDigit != null) tvDigit.setText(String.valueOf(digit));
+
+        buttonView.setOnTouchListener((v, event) -> {
+            Call call = callManager.getCurrentCall();
+            if (call == null) return false;
+
+            switch (event.getAction()) {
+                case android.view.MotionEvent.ACTION_DOWN:
+                    call.playDtmfTone(digit);
+                    updateDtmfDisplay(digit);
+                    v.setPressed(true);
+                    return true;
+                case android.view.MotionEvent.ACTION_UP:
+                case android.view.MotionEvent.ACTION_CANCEL:
+                    call.stopDtmfTone();
+                    v.setPressed(false);
+                    return true;
+            }
+            return false;
+        });
+    }
+
+    private void updateDtmfDisplay(char digit) {
+        TextView tvDigits = findViewById(R.id.tvDigitsDisplay);
+        if (tvDigits != null) {
+            String current = tvDigits.getText().toString();
+            tvDigits.setText(current + digit);
         }
     }
 
@@ -285,7 +483,19 @@ public class InCallActivity extends AppCompatActivity {
         super.onDestroy();
         stopTimer();
         if (recordingManager != null && recordingManager.isRecording()) {
-            recordingManager.stopRecording();
+            String duration = binding.tvTimer.getText().toString();
+            Call currentCall = callManager.getCurrentCall();
+            String direction = "Unknown";
+            if (currentCall != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    int dir = currentCall.getDetails().getCallDirection();
+                    direction = (dir == android.telecom.Call.Details.DIRECTION_INCOMING) ? "Incoming 📥" : "Outgoing 📤";
+                } else {
+                    // Fallback for older versions
+                    direction = isIncomingRinging ? "Incoming 📥" : "Outgoing 📤";
+                }
+            }
+            recordingManager.stopRecording(this, duration, direction);
         }
         callManager.removeListener(callListener);
     }

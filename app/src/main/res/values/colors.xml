@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Glassmorphism and Modern Palette -->
+    <color name="glass_white">#B3FFFFFF</color>
+    <color name="glass_white_heavy">#E6FFFFFF</color>
+    <color name="glass_stroke">#4DFFFFFF</color>
+    <color name="glass_bg_start">#FFD8E2FE</color>
+    <color name="glass_bg_end">#FFE8F1FF</color>
+
+    <color name="vibrant_blue">#007AFF</color>
+    <color name="vibrant_green">#34C759</color>
+    <color name="vibrant_red">#FF3B30</color>
+    <color name="vibrant_purple">#AF52DE</color>
+    <color name="vibrant_orange">#FF9500</color>
+
+    <color name="gradient_start">#4A90E2</color>
+    <color name="gradient_middle">#B4ED50</color>
+    <color name="gradient_end">#F5A623</color>
+
     <!-- Light Mode Colors -->
+
     <color name="light_primary">#007AFF</color>
     <color name="light_primary_container">#E8F2FF</color>
     <color name="light_on_primary">#FFFFFF</color>
